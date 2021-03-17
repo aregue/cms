@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <link rel="stylesheet" href="static/style.css">
+        <link rel="stylesheet" href="static/dropzone.css">
+        <script src="static/dropzone.js"></script>
+        <script>
+            function copyToClipBoard (element_id) {
+                var copyText = document.getElementById(element_id);
+                copyText.select();
+                document.execCommand("copy");
+            }
+        </script>
+    </head>
+    <body>
+        <p style="text-align:right; margin-top:0; margin-bottom: 0;"><a href="{{url_for('logout')}}">Log out</a></p>
+        
+        {% block content %}{% endblock %}
+        
+    </body>
+</html>

@@ -1,0 +1,25 @@
+{% extends "base_public.html" %}
+
+{% block content %}
+    
+    <!-- navigation bar with home, blog and all pinned posts -->
+    <div class="navigation">
+        <ul class=navigation>
+            <li class=navigation>Home</li>
+            <li class=navigation><a href={{url_for('blog')}}>Blog</a></li>
+            {% for p in pages %}
+                <li class=navigation><a href="{{p.url}}">{{p.title}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <!-- page content -->
+    <h1>{{title_h1}}</h1>
+    {{html|safe}}
+    
+    <!-- date and footer -->
+    <div class="date">
+        <p>Last updated: {{last_updated}}</p>
+    </div>
+    
+{% endblock %}

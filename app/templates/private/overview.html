@@ -1,0 +1,63 @@
+{% extends "base_private.html" %}
+
+{% block content %}
+        <div class = "navigation">
+        <ul class = "navigation" style="margin-top: 0;">
+            <li class = "navigation"><a href="{{url_for('home')}}">View site</a></li>
+            <li class = "navigation"><a href="{{url_for('edit_settings')}}">Settings</a></li>
+        </ul>
+        </div>
+        
+        <h2>Pages</h2>
+        
+        <!-- form to create a new page -->
+        <form action="{{url_for('new_page')}}" method="POST">
+            {{form.hidden_tag()}}
+            {{form.title(size=50, autocomplete="off")}} {{form.submit}}
+        </form>
+        
+        <!-- list of pages -->
+        <ul style="list-style-type: none; padding-left: 0;">
+            {% for p in pages %}
+                <li>
+                    {% if p.published %}
+                        <a href="{{url_for('edit', post=p.id)}}">{{p.title}}</a> -
+                        <span style="color: green; font-size: 80%">Published</span>
+                    {% else %}
+                        <a href="{{url_for('edit', post=p.id)}}">{{p.draft_title}}</a> -
+                        <span style="color: orange; font-size: 80%">Draft</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        
+        
+        
+        <h2>Posts</h2>
+        
+        <!-- form to create a new post -->
+        
+        <form action="{{url_for('new_post')}}" method="POST">
+            {{form.hidden_tag()}}
+            {{form.title(size=50, autocomplete="off")}} {{form.submit}}
+        </form>
+        
+        <ul style="list-style-type: none; padding-left: 0;">
+            {% for p in posts %}
+                <li>
+                    {% if p.published %}
+                        <a href="{{url_for('edit', post=p.id)}}">{{p.title}}</a> -
+                        <span style="color: green; font-size: small">Published</span>
+                    {% else %}
+                        <a href="{{url_for('edit', post=p.id)}}">{{p.draft_title}}</a> -
+                        <span style="color: orange; font-size: small">Draft</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        
+
+        <p></p>
+        </div>
+
+{% endblock %}

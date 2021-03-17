@@ -1,0 +1,44 @@
+{% extends "base_private.html" %}
+
+{% block content %}
+    
+    <!-- tabs to select a edit | preview | uploads -->
+    <div class="edit_menu">
+        <ul>
+            <li><a href="{{url_for('overview')}}">&larr; Back to overview</a></li>
+            <li><a href="{{url_for('edit', post=post_id)}}">&#128221; Edit</a></li>
+            <li><a href="{{url_for('preview', post=post_id)}}">&#128269; Preview</a></li>
+            <li class="selected">&#11014; Uploads</li>
+        </ul>
+    </div>
+      
+    <!-- form to upload files -->
+    <p></p>
+    <form action="{{ url_for('save_upload') }}" class="dropzone">
+        <p class="dz-message">Click or drop files here to upload</p>
+        {{form_upload.hidden_tag()}}
+    </form>
+    
+    <!-- list of uploaded files -->
+    <p><a href="{{url_for('uploads', post=post_id)}}">⟳ Refresh list of uploaded files</a></p>
+    <table style="width: 100%">
+        <tr>
+            <td><b>Url</b></td>
+            <td colspan="3"></td>
+        </tr>
+    {% for f in files %}
+        <tr>
+            <td><input type="text" id="{{f[0]}}" value="/static/files/{{post_id}}/{{f[0]}}" size="40" style="background: none; border: none; outline: none;"></td> 
+            <td><a href="/static/files/{{post_id}}/{{f[0]}}" target="_blank">View↗</a></td>
+            <td><button onclick="copyToClipBoard('{{f[0]}}')">Copy url</button></td>
+            <td>
+                <form class="inline_form" action="{{url_for('delete_file')}}" method="POST">
+                    {{f[1].hidden_tag()}}
+                    {{f[1].submit()}}
+                </form>
+            </td>            
+        </tr>
+    {% endfor %}
+    </table>
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "base_private.html" %}
+
+{% block content %}
+
+    <!-- tabs to select a edit | preview | uploads -->
+    <div class="edit_menu">
+        <ul>
+            <li><a href="{{url_for('overview')}}">&larr; Back to overview</a></li>
+            <li><a href="{{url_for('edit', post=post.id)}}">&#128221; Edit</a></li>
+            <li class="selected">&#128269; Preview</li>
+            <li><a href="{{url_for('uploads', post=post.id)}}">&#11014; Uploads</a></li>
+        </ul>
+    </div>
+      
+    <!-- controls -->
+    <div>
+        <p>
+        <!-- pin to / remove from homepage -->
+        {% if post.pinned %}
+            <form class="inline_form" action="{{url_for('unpin')}}" method="POST">
+                {{form_unpin.hidden_tag()}}
+                {{form_unpin.submit()}}
+            </form>
+        {% else %}
+            <form class="inline_form" action="{{url_for('pin')}}" method="POST">
+                {{form_pin.hidden_tag()}}
+                {{form_pin.submit()}}
+            </form>
+        {% endif %}
+        <!-- publish / unpublish -->
+        {% if post.published %}
+            <!--add update button if there are changes between draft and published -->
+            {% if draft_updated %}
+                <form class="inline_form" action="{{url_for('update')}}" method="POST">
+                    {{form_update.hidden_tag()}}
+                    {{form_update.submit()}}
+                </form>
+            {% endif %}
+            <form class="inline_form" action="{{url_for('unpublish')}}" method="POST">
+                {{form_unpublish.hidden_tag()}}
+                {{form_unpublish.submit()}}
+            </form>
+        {% else %}
+            <form class="inline_form" action="{{url_for('publish')}}" method="POST">
+                {{form_publish.hidden_tag()}}
+                {{form_publish.submit()}}
+            </form>
+        {% endif %}
+        <!-- delete post -->
+            <form class="inline_form" action="{{url_for('delete_post')}}" method="POST">
+                {{form_delete.hidden_tag()}}
+                {{form_delete.submit()}}
+            </form>
+        </p>
+        
+    </div>
+    
+    
+    
+    
+    <!-- preview post/page -->
+    
+    <div style="border: 1px dotted gray; padding: 2em">
+    
+    <!-- site description -->
+    <h2>{{description}}</h2>
+    
+    <!-- navigation bar with home, blog and all pinned posts -->
+    <div class="navigation">
+        <ul class=navigation>
+            <li class=navigation><a href={{url_for('home')}}>Home</a></li>
+            <li class=navigation><a href={{url_for('blog')}}>Blog</a></li>
+            {% for p in pages %}
+                {% if p.url == post.url %}
+                    <li class=navigation>{{p.draft_title}}</li>
+                {% else %}
+                    <li class=navigation><a href="{{p.url}}">{{p.draft_title}}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <!-- page content -->
+    
+    <h1>{{post.draft_title}}</h1>
+    
+    
+    {{html|safe}}
+    
+    <!-- date -->
+    <div class="date">
+        <p>Last updated: {{last_updated}}</p>
+    </div>
+    
+{% endblock %}
+
+
+
+
+
+
+

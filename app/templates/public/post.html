@@ -1,0 +1,29 @@
+{% extends "base_public.html" %}
+
+{% block content %}
+    
+    <!-- navigation bar with home, blog and all pinned posts -->
+    <div class="navigation">
+        <ul class=navigation>
+            <li class=navigation><a href={{url_for('home')}}>Home</a></li>
+            <li class=navigation><a href={{url_for('blog')}}>Blog</a></li>
+            {% for p in pages %}
+                {% if p.url == post_url %}
+                    <li class=navigation>{{p.title}}</li>
+                {% else %}
+                    <li class=navigation><a href="{{p.url}}">{{p.title}}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <!-- page content -->
+    <h1>{{title}}</h1>
+    {{html|safe}}
+    
+    <!-- date and footer -->
+    <div class="date">
+        <p>Last updated: {{last_updated}}</p>
+    </div>
+    
+{% endblock %}

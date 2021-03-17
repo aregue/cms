@@ -1,0 +1,37 @@
+{% extends "base_private.html" %}
+
+{% block content %}
+    <!-- tabs to select a edit | preview | uploads -->
+    <div class="edit_menu">
+        <ul>
+            <li><a href="{{url_for('overview')}}">&larr; Back to overview</a></li>
+            <li class="selected">&#128221; Edit settings</li>
+            <li><a href="{{url_for('preview_settings')}}">Preview home</a></li>
+            <li><a href="{{url_for('uploads_home')}}">&#11014; Uploads for home page</a></li>
+        </ul>
+    </div>
+ 
+    <!-- form to edit markdown -->
+    
+    <form action="{{url_for('save_settings')}}" method="POST">
+        {{form.hidden_tag()}}
+        
+        <p>
+            <b>{{form.description.label}}</b><br>
+            {{form.description(size=80, autocomplete="off", class="simple_form")}}                
+        </p> 
+        
+        <p>
+            <b>{{form.title.label}}</b><br>
+            {{form.title(size=80, autocomplete="off", class="simple_form")}}                
+        </p> 
+        
+        <p>
+            <b id="content">{{form.content.label}}</b><br>
+            {{form.content(cols="75", rows="12", class="simple_form")}}
+        </p>
+                        
+        {{form.submit()}}
+        </form>
+
+{% endblock %}

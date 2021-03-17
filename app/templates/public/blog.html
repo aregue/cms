@@ -1,0 +1,23 @@
+{% extends "base_public.html" %}
+
+{% block content %}
+    
+    <!-- navigation bar with home, blog and all pinned posts -->
+    <div class="navigation">
+        <ul class=navigation>
+            <li class=navigation><a href={{url_for('home')}}>Home</a></li>
+            <li class=navigation>Blog</li>
+            {% for p in pages %}
+                <li class=navigation><a href="{{p.url}}">{{p.title}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <!-- list of posts -->  
+    <ul style="list-style-type: none;">  
+    {% for p in posts %}
+        <li><span class="b_date">{{p.date_published}}</span> &nbsp;&nbsp;&nbsp;&nbsp; <a href="{{p.url}}">{{p.title}}</a></li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}

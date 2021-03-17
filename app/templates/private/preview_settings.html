@@ -1,0 +1,66 @@
+{% extends "base_private.html" %}
+
+{% block content %}
+
+    <!-- tabs to select a edit | preview | uploads -->
+    <div class="edit_menu">
+        <ul>
+            <li><a href="{{url_for('overview')}}">&larr; Back to overview</a></li>
+            <li><a href="{{url_for('edit_settings')}}">&#128221; Edit settings</a></li>
+            <li class="selected">&#128269; Preview home</li>
+            <li><a href="{{url_for('uploads_home')}}">&#11014; Uploads for home page</a></li>
+        </ul>
+    </div>
+      
+    <!-- form to update site -->
+    <div>
+        <p>
+        
+            <!--add update button if there are changes between draft and published -->
+            {% if draft_updated %}
+                <form class="inline_form" action="{{url_for('update_settings')}}" method="POST">
+                    {{form_update.hidden_tag()}}
+                    {{form_update.submit()}}
+                </form>
+            {% endif %}
+
+        </p>
+    </div>
+    
+    
+    <!-- preview post/page -->
+    
+    <div style="border: 1px dotted gray; padding: 2em">
+    
+    <!-- site description -->
+    <h2>{{description}}</h2>
+    
+    <!-- navigation bar with home, blog and all pinned posts -->
+    <div class="navigation">
+        <ul class=navigation>
+            <li class=navigation>Home</li>
+            <li class=navigation><a href={{url_for('blog')}}>Blog</a></li>
+            {% for p in pages %}
+                <li class=navigation><a href="{{p.url}}">{{p.draft_title}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <!-- page content -->
+    
+    {{html|safe}}
+    
+    <!-- date -->
+    <div class="date">
+        <p>Last updated: {{last_updated}}</p>
+    </div>
+    
+
+{% endblock %}
+
+
+
+
+
+
+

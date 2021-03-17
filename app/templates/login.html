@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Log in</title>
+        <link rel="stylesheet" href="static/style.css">
+    </head>
+    <body>
+        <h1>Log in</h1>
+        
+        {% if error %}
+            <p style="color:red">Wrong username or password</p>
+        {% endif %}
+
+        
+        <form action="{{url_for('login')}}" method="POST">
+            
+            {{form.hidden_tag()}}
+            
+            <p>
+            {{form.username.label}}<br>
+            {{form.username()}}
+            </p>
+            
+            <p>
+            {{form.password.label}}<br>
+            {{form.password()}}
+            </p>
+            
+            <p>
+            {{form.submit()}}
+            </p>
+            
+                
+        </form>
+    </body>
+</html>

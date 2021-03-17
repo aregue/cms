@@ -1,0 +1,9 @@
+*.pyc
+__pycache__
+*.db
+venv
+.flaskenv
+tags
+.github_token
+app/static/files
+.env
