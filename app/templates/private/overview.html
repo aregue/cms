@@ -17,15 +17,15 @@
         </form>
         
         <!-- list of pages -->
-        <ul style="list-style-type: none; padding-left: 0;">
+        <ul class="list_of_posts">
             {% for p in pages %}
                 <li>
                     {% if p.published %}
                         <a href="{{url_for('edit', post=p.id)}}">{{p.title}}</a> -
-                        <span style="color: green; font-size: 80%">Published</span>
+                        <span class="published">Published</span>
                     {% else %}
                         <a href="{{url_for('edit', post=p.id)}}">{{p.draft_title}}</a> -
-                        <span style="color: orange; font-size: 80%">Draft</span>
+                        <span class="draft">Draft</span>
                     {% endif %}
                 </li>
             {% endfor %}
@@ -42,15 +42,15 @@
             {{form.title(size=50, autocomplete="off")}} {{form.submit}}
         </form>
         
-        <ul style="list-style-type: none; padding-left: 0;">
+        <ul class="list_of_posts">
             {% for p in posts %}
                 <li>
                     {% if p.published %}
                         <a href="{{url_for('edit', post=p.id)}}">{{p.title}}</a> -
-                        <span style="color: green; font-size: small">Published</span>
+                        <span class="published">Published</span>
                     {% else %}
                         <a href="{{url_for('edit', post=p.id)}}">{{p.draft_title}}</a> -
-                        <span style="color: orange; font-size: small">Draft</span>
+                        <span class="draft">Draft</span>
                     {% endif %}
                 </li>
             {% endfor %}
