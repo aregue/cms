@@ -9,6 +9,8 @@ import datetime
 import markdown
 import os
 from werkzeug.utils import secure_filename
+import random
+import string
 
 
 # Log in and log out
@@ -442,27 +444,51 @@ def delete_file_home():
 ## -------------------------
 
 
-def make_url(title):
-    '''Converts a title into a string suitable for beeing used as url'''
+def make_url(title, existing_urls):
+    '''Converts a title into a string suitable for beeing used as url.
+    Checks that generated url is not equal to an existing one.
+    title: string
+    existing_urls: list of strings
+    It removes things that can be used in an url, but I am not sure.
+    Even things that I know can be used, cause unexpected behaviour, so 
+    I just remove everything but ascii characters and numbers.'''
     
-    # replace spaces with '-', make lowercase and remove non ascii characters
-    # and punctuation. Leave only lowercase ascii and numbers.
+    # replace spaces with '-' and make lowercase
     words = title.split()
     url = '-'.join(words)
     url = url.lower()
-    #TODO: remove exclamation signs (!) and other things that won't be recognized
     
-    # check that url is not an existing route
-    if url in [blog, edit, preview, overview] :
-        url = url + '-i'
+    # Leave only lowercase ascii and numbers.
+    ok_chars = string.ascii_lowercase + string.digits + '-'
+    url = ''.join(filter(lambda x: x in ok_chars, url))
     
-    #TODO: check that url does not exist already in another post
+    # Make shure that the url is at least one character long
+    # If not assign a random string to it
+    
+    if not url:
+        for _ in range(2):
+            url += random.choice(ok_chars)
+    
+    # assume that url is unique
     unique = True
     
-    #call make_url recursively with the proposal for the new  
-    #url to avoid conflict with another also existing url
+    # check that url is not an existing route
+    if url in ['login', 'logout', 'blog', 'edit_settings', 'preview_settings', 
+        'uploads_home', 'overview', 'edit', 'preview', 'uploads', 'save_settings',
+        'update_settings', 'save_upload_home', 'delete_file_home', 'new_page',
+        'new_post', 'save', 'publish', 'update', 'unpublish', 'pin', 'unpin',
+        'delete_post', 'save_upload', 'delete_file'] :
+        
+        unique = False
+    
+    # check that url does not exist already in another post
+    if url in existing_urls:
+        unique = False
+    
+    # call make_url recursively with a modified title  
+    # to avoid conflict with another also existing url
     if not unique:
-        url = make_url (url+'-i')
+        url = make_url (title + ' ' + random.choice(ok_chars), existing_urls)
     
     return url
     
@@ -533,15 +559,20 @@ def publish():
         post = Post.query.filter_by(id=form.post_id.data).first()
         post.title = post.draft_title
         post.content = post.draft_content
-        post.published = True
         
         # if the post is published for the first time, set published date and last updated date
         # if the post has been publisehd, unpublished and publisehd anew, set only last updated date
         # post url needs to be generated only if post has not been published before
         if not post.date_published:
             post.date_published = datetime.date.today()
-            post.url = make_url(post.title)
+            
+            published_posts = Post.query.filter_by(published=True).all()
+            existing_urls = [p.url for p in published_posts]
+            
+            post.url = make_url(post.title, existing_urls)
+            
         post.date_updated = datetime.date.today()
+        post.published = True
         
         db.session.commit()
     return redirect(url_for('preview', post=post.id))
