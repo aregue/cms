@@ -208,12 +208,19 @@ def uploads_home():
     form_upload.post_id.data = 'home'
     
     # get list of already uploaded files
-    files = os.listdir('app/static/files/home')
-    forms = []
-    for f in files:
-        form = DeleteForm()
-        form.object_id.data = f
-        forms.append(form)
+    directory = os.path.join(app.config['UPLOADS_FOLDER'], 'home')
+        
+    if os.path.isdir (directory):
+        files = os.listdir(directory)
+        forms = []
+        for f in files:
+            form = DeleteForm()
+            form.object_id.data = f
+            forms.append(form)
+    else:
+        files = []
+        forms = []
+    
     
     return render_template(
         'private/uploads_home.html',
@@ -335,7 +342,7 @@ def uploads():
         form_upload.post_id.data = post_id
         
         # get list of already uploaded files
-        directory = os.path.join('app/static/files', str(int(post_id)))
+        directory = os.path.join(app.config['UPLOADS_FOLDER'], str(int(post_id)))
         
         if os.path.isdir (directory):
             files = os.listdir(directory)
@@ -420,10 +427,18 @@ def save_upload_home():
     '''Saves a file upload in the directory for the home page'''
     form = UploadForm()
     if form.validate_on_submit():
-        #TODO: define uploads directory in a config variable
         uploaded_file = request.files['file']
         if uploaded_file.filename != '':
-            uploaded_file.save(os.path.join('app/static/files/home', secure_filename(uploaded_file.filename)))
+            # check if directory for home files exists and create if it doesn't
+            directory = os.path.join(app.config['UPLOADS_FOLDER'], 'home')
+            if not os.path.isdir(directory):
+                os.mkdir(directory)
+                
+            # save file
+            uploaded_file.save(os.path.join(
+                app.config['UPLOADS_FOLDER'], 
+                'home', 
+                secure_filename(uploaded_file.filename)))
     return redirect(url_for('uploads_home'))
 
 
@@ -434,7 +449,10 @@ def delete_file_home():
     '''Deletes a file attached to the home page'''
     form = DeleteForm() # the value of object_id in the form is the filename
     if form.validate_on_submit():
-        os.remove(os.path.join('app/static/files/home', secure_filename(form.object_id.data)))
+        os.remove(os.path.join(
+            app.config['UPLOADS_FOLDER'], 
+            'home', 
+            secure_filename(form.object_id.data)))
     return redirect(url_for('uploads_home'))
 
 
@@ -650,14 +668,14 @@ def delete_post():
         # Delete files belonging to post
         
         # get list of uploaded files (if any)
-        directory = os.path.join('app/static/files', str(int(post_id)))
+        directory = os.path.join(app.config['UPLOADS_FOLDER'], str(int(post_id)))
         
         if os.path.isdir (directory):
             files = os.listdir(directory)
             
             for f in files:
                 # remove file from directory
-                os.remove(os.path.join('app/static/files', str(int(post_id)), f))
+                os.remove(os.path.join(app.config['UPLOADS_FOLDER'], str(int(post_id)), f))
             
             # remove file record from the database
             if len(files)>0:
@@ -673,7 +691,6 @@ def delete_post():
 @login_required
 def save_upload():
     '''Saves a file upload in the directory for the post to which it is attached'''
-    #TODO: define uploads directory in a config variable
     
     form = UploadForm()
     if form.validate_on_submit():
@@ -682,7 +699,7 @@ def save_upload():
         uploaded_file = request.files['file']
         if uploaded_file.filename != '':
             # check if directory for post exists and create if it doesn't
-            directory = os.path.join('app/static/files', str(int(post_id)))
+            directory = os.path.join(app.config['UPLOADS_FOLDER'], str(int(post_id)))
             
             if not os.path.isdir(directory):
                 os.mkdir(directory)
@@ -714,7 +731,7 @@ def delete_file():
         filename = secure_filename(form.object_id.data)
         
         # remove file from directory
-        os.remove(os.path.join('app/static/files', str(int(post_id)), filename))
+        os.remove(os.path.join(app.config['UPLOADS_FOLDER'], str(int(post_id)), filename))
             
         # remove file record from the database
         upload_record = Upload.query.filter_by(post_id=post_id).filter_by(filename=filename).first()

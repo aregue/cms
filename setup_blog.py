@@ -1,4 +1,11 @@
 import datetime
+import secrets
+
+# create .env file with SECRET_KEY
+sk = secrets.token_hex(32)
+f=open('.env', 'w')
+f.write('SECRET_KEY=' + str(sk))
+f.close()
 
 # create database
 from app import db

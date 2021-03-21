@@ -111,8 +111,19 @@ img {
     box-shadow: 4px 4px 6px 2px gray;
 }
 
+/* style for code */
 
+pre {
+    border: 1px solid gainsboro;
+    background-color: whitesmoke;
+    padding: 1ch;
+}
 
+code {
+    background-color: whitesmoke;
+    padding: 0.3ch;
+    
+}
 
 
 
