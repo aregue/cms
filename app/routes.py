@@ -95,11 +95,19 @@ def home(post_url=None):
         return redirect(url_for('home'))
         
     else:
+        # convert content to html with markdown
+        # check edge case when trying to display a page without content
+            
+        if post.content: 
+            html = markdown.markdown(post.post.content) 
+        else:
+            html = ' '
+            
         return render_template(
             'public/post.html', 
             title = post.title, 
             description = description.value,
-            html = markdown.markdown(post.content),
+            html = html,
             last_updated = post.date_updated,
             pages = pages,
             post_url = post_url,
@@ -304,7 +312,13 @@ def preview():
             form_delete = DeleteForm()
             form_delete.object_id.data = post.id
             
-            html = markdown.markdown(post.draft_content) 
+            # convert draft_content to html with markdown
+            # check edge case when trying to preview a page without content
+            
+            if post.draft_content: 
+                html = markdown.markdown(post.draft_content) 
+            else:
+                html = ' '
             
             draft_updated = (post.draft_title != post.title) or (post.draft_content != post.content)
                 
