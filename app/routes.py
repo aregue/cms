@@ -99,7 +99,7 @@ def home(post_url=None):
         # check edge case when trying to display a page without content
             
         if post.content: 
-            html = markdown.markdown(post.post.content) 
+            html = markdown.markdown(post.content) 
         else:
             html = ' '
             
