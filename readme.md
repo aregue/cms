@@ -32,9 +32,7 @@ Create folder for uploads and make it writable by the web server
     $ chgrp web app/static/files
     $ chmod g+w app/static/files
 
-If you choose to place the uploads folder in another location or give it another name, make sure to update the `UPLOADS_FOLDER` variable in `app/config.py` with your folder name. 
-
-Setup blog database and user. It will also create a .env file with a random SECRET_KEY used in the app.
+Setup blog database and user by running `setup_blog.py` script. It will also create a .env file with a random SECRET_KEY used in the app.
 
     $ python setup_blog.py
 

@@ -1,13 +1,13 @@
 @font-face {
 	font-family: 'Barlow';
-	font-weight: 400;
+	font-weight: normal;
 	font-style: normal;
 	src: url('Barlow-Regular.woff') format('woff');
 }
 
 @font-face {
 	font-family: 'Barlow';
-	font-weight: 500;
+	font-weight: bold;
 	font-style: normal;
 	src: url('Barlow-Medium.woff') format('woff');
 }
