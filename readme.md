@@ -21,9 +21,11 @@ Clone repository
 
     $ git clone https://github.com/aregue/cms.git
 
-Change directory into cms and install dependencies 
+Change directory into cms, create virtual environment and install dependencies 
 
     $ cd cms
+    $ python3 pip -m venv venv
+    $ source venv/bin/activate
     $ pip install -r requirements.txt
 
 Create folder for uploads and make it writable by the web server
@@ -36,7 +38,7 @@ Setup blog database and user by running `setup_blog.py` script. It will also cre
 
     $ python setup_blog.py
 
-I run CMS with Gunicorn behind a reverse proxy. CMS is a Flask app. Although Gunicorn is included in the dependencies, CMS can be run with many different servers. The script `run-blog.sh` is provided for convenience. It is just one line to start the Gunicorn server. On my hosting provider, you can add a daemon that runs this script, a proxy that listens to the port specified on the script (8000) and you are done. 
+I run CMS with Gunicorn behind a reverse proxy. CMS is a Flask app. Although Gunicorn is included in the dependencies, CMS can be run with many different servers. The script `run-blog.sh` is provided for convenience. It is just one line to activate the virtual environment and another to start the Gunicorn server. On my hosting provider, you can add a daemon that runs this script, a proxy that listens to the port specified on the script (8000) and you are done. 
 
 CMS uses SQLite and therefore cannot run on Heroku and similar services with an ephemeral filesystem.
 
