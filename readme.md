@@ -24,7 +24,7 @@ Clone repository
 Change directory into cms, create virtual environment and install dependencies 
 
     $ cd cms
-    $ python3 pip -m venv venv
+    $ python3 -m venv venv
     $ source venv/bin/activate
     $ pip install -r requirements.txt
 
@@ -37,8 +37,15 @@ Create folder for uploads and make it writable by the web server
 Setup blog database and user by running `setup_blog.py` script. It will also create a .env file with a random SECRET_KEY used in the app.
 
     $ python setup_blog.py
+    
+The database will be created in `./database/content.db`. Make sure that the `database/` folder and the `content.db` file are writeable by the web server. 
+    
+    $ chgrp web database/
+    $ chmod g+w database/
+    $ chgrp web content.db
+    $ chmod g+w content.db
 
-I run CMS with Gunicorn behind a reverse proxy. CMS is a Flask app. Although Gunicorn is included in the dependencies, CMS can be run with many different servers. The script `run-blog.sh` is provided for convenience. It is just one line to activate the virtual environment and another to start the Gunicorn server. On my hosting provider, you can add a daemon that runs this script, a proxy that listens to the port specified on the script (8000) and you are done. 
+CMS is a Flask app. It can be run with many different servers, such as [Gunicorn](https://www.gunicorn.org) or [Waitress](https://docs.pylonsproject.org/projects/waitress/en/stable/index.html). Install any of them with pip. The script `run-blog.sh` is provided for convenience. It is just one line to activate the virtual environment and another to start the server. It comes with examples for both Gunicorn and Waitress. Edit the file to suit your needs. On my hosting provider, you can add a daemon that runs this script, a proxy that listens to the port specified on the script (8000) and you are done. 
 
 CMS uses SQLite and therefore cannot run on Heroku and similar services with an ephemeral filesystem.
 

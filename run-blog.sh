@@ -1,4 +1,8 @@
 #!/bin/bash
+# activate virtual environment
 source venv/bin/activate
-exec gunicorn -b localhost:8000 -w 4 cms:app
+# start Waitress server
+exec waitress-serve --port=8000 --threads=8 cms:app
+# alternate example with Gunicorn server
+# exec gunicorn -b localhost:8000 -w 4 cms:app
 
