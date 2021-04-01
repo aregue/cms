@@ -82,6 +82,8 @@ CMS is copyright 2021 Andreu Regué Barrufet and licensed under MIT.
 
 CMS includes Dropzone which is also licensed under MIT. Dropzone is copyright 2012 Matias Meno. 
 
+CMS uses Barlow font by Jeremy Tribby licensed under [SIL Open Font License v1.1](https://scripts.sil.org/ofl).
+
 Se under folder licenses to read the full licenses.
 
 
