@@ -85,6 +85,10 @@ def home(post_url=None):
             last_updated = last_updated.value,
             pages = pages,
             )
+    
+    if post_url in ["robots.txt", "favicon.ico"]:
+        return redirect ("static/"+post_url)
+        
         
     post = Post.query.filter_by(url=post_url).first()
     
@@ -509,7 +513,7 @@ def make_url(title, existing_urls):
         'uploads_home', 'overview', 'edit', 'preview', 'uploads', 'save_settings',
         'update_settings', 'save_upload_home', 'delete_file_home', 'new_page',
         'new_post', 'save', 'publish', 'update', 'unpublish', 'pin', 'unpin',
-        'delete_post', 'save_upload', 'delete_file'] :
+        'delete_post', 'save_upload', 'delete_file', 'favicon.ico', 'robots.txt'] :
         
         unique = False
     
