@@ -89,8 +89,8 @@ a:visited {
 /* List of posts/pages in overview */
 
 .list_of_posts {
-    list-style-type: none; 
-    padding-left: 0;
+    list-style-type: '# ';
+    padding-left: 2ch;
 }
 
 /* format for information about post status */

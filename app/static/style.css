@@ -129,6 +129,13 @@ code {
 }
 
 
+/* style for list of posts */
+
+.blog_title_list {
+    text-indent: -12ch;
+    padding-left: 8ch;
+}
+
 
 
 

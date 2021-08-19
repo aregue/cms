@@ -19,7 +19,7 @@
         <!-- list of pages -->
         <ul class="list_of_posts">
             {% for p in pages %}
-                <li>
+                <li><p>
                     {% if p.published %}
                         <a href="{{url_for('edit', post=p.id)}}">{{p.title}}</a> -
                         <span class="published">Published</span>
@@ -27,7 +27,7 @@
                         <a href="{{url_for('edit', post=p.id)}}">{{p.draft_title}}</a> -
                         <span class="draft">Draft</span>
                     {% endif %}
-                </li>
+                </p></li>
             {% endfor %}
         </ul>
         
@@ -44,7 +44,7 @@
         
         <ul class="list_of_posts">
             {% for p in posts %}
-                <li>
+                <li><p>
                     {% if p.published %}
                         <a href="{{url_for('edit', post=p.id)}}">{{p.title}}</a> -
                         <span class="published">Published</span>
@@ -52,7 +52,7 @@
                         <a href="{{url_for('edit', post=p.id)}}">{{p.draft_title}}</a> -
                         <span class="draft">Draft</span>
                     {% endif %}
-                </li>
+                </p></li>
             {% endfor %}
         </ul>
         

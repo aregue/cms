@@ -16,7 +16,7 @@
     <!-- list of posts -->  
     <ul style="list-style-type: none;">  
     {% for p in posts %}
-        <li><span class="b_date">{{p.date_published}}</span> &nbsp;&nbsp;&nbsp;&nbsp; <a href="{{p.url}}">{{p.title}}</a></li>
+        <li><p class="blog_title_list"><span class="b_date">{{p.date_published}}</span> &nbsp;&nbsp;&nbsp;&nbsp; <a href="{{p.url}}">{{p.title}}</a></p></li>
     {% endfor %}
     </ul>
 
